@@ -261,6 +261,9 @@ export default function App() {
 
   return (
     <div className="max-w-md mx-auto min-h-screen bg-[#FDFCFB] font-sans selection:bg-emerald-100">
+      <div className="bg-emerald-600 text-emerald-50 text-[11px] py-1.5 px-4 text-center tracking-wide">
+        Developed by <span className="font-bold text-white">DrFendi Ameen</span> • <a href="mailto:afandi.amin@customs.gov.my" className="hover:text-white transition-colors underline decoration-emerald-500 underline-offset-2">afandi.amin@customs.gov.my</a>
+      </div>
       {/* Header */}
       <header className="sticky top-0 z-30 bg-[#FDFCFB]/80 backdrop-blur-md border-b border-slate-100 px-4 py-3 flex items-center justify-between">
         {selectedSurah || selectedJuz ? (
@@ -563,12 +566,8 @@ export default function App() {
                 </div>
               )}
             </motion.div>
+          )}
         </AnimatePresence>
-
-        <footer className="mt-12 pb-8 text-center text-slate-400 text-sm">
-          <p>by DrFendi Ameen</p>
-          <a href="mailto:afandi.amin@customs.gov.my" className="hover:text-emerald-600 transition-colors mt-1 inline-block">afandi.amin@customs.gov.my</a>
-        </footer>
       </main>
 
       {/* Settings Modal */}
