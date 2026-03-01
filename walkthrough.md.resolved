@@ -1,0 +1,38 @@
+# Application Preview Walkthrough
+
+I have started the development server for the Quran app and captured a video preview demonstrating its functionality and design.
+
+## Preview Recording
+
+Here is a short recording of the application running locally at `http://localhost:3000`. The browser agent scrolled through the Surah list, viewed the details for Surah Al-Maaida, and explored the settings menu (changing the translation language).
+
+![Quran App Preview](file:///D:/Users/JKDM/.gemini/antigravity/brain/7a2dc3ae-0b0f-4bfc-a233-ae91817447c2/app_preview_1772326569859.webp)
+
+## Details
+
+- **Local URL**: `http://localhost:3000`
+- **Dependencies**: all dependencies have been successfully installed.
+
+## New Features
+
+### Juz Viewing Context
+The application was vastly expanded to enable users to view the Quran linearly by Juz. 
+- Integrated a new **Juz** tab allowing selection from 1 to 30.
+- Re-architected data structures and state representation to use unified `verseKey` (`Surah:Ayah`) tracking, gracefully allowing verses from multiple Surahs to coalesce cleanly on a single unified page.
+- Inline Surah headers and Bismillah texts are intelligently rendered seamlessly during transitions between Surahs.
+
+![Juz Viewing UI Demonstration](file:///D:/Users/JKDM/.gemini/antigravity/brain/7a2dc3ae-0b0f-4bfc-a233-ae91817447c2/juz_tab_preview_1772328261069.webp)
+
+### Audio Playback
+Added a new feature to play the audio recitation for each individual Ayah. 
+- The Quran.com API `v4`'s recitation endpoint was integrated to fetch the audio URLs recursively for the viewed Surah (defaulting to the highly legible Mishary Rashid Alafasy).
+- A specialized play/stop button was injected next to the bookmark action on every verse. It maintains exact playback state and ensures overlapping or multiple parallel recitations are safely halted before beginning a new one.
+
+Here is a recording showcasing the audio playback feature across verses in Surah Al-Fatihah:
+![Audio Playback Feature](file:///D:/Users/JKDM/.gemini/antigravity/brain/7a2dc3ae-0b0f-4bfc-a233-ae91817447c2/audio_playback_preview_1772327636007.webp)
+
+## Bug Fixes
+
+- **Word-by-word translation language**: Fixed an issue where the word-by-word translation for Bahasa Melayu fell back to English. Since the Quran.com API (`v4`) does not support Malay word-by-word translations, we have mapped it to gracefully fallback to Indonesian (`id`), which is mutually intelligible and provides a much better experience than English.
+
+Let me know if you would like me to make any modifications or if you have further requests!

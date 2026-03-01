@@ -1,0 +1,30 @@
+# Add Audio Playback to Ayahs
+
+This plan outlines the changes required to add audio playback functionality for each Ayah in the Quran application. We will use the Quran.com API (`api.quran.com/api/v4`) to fetch audio links for verses and add a play button to the UI.
+
+## Proposed Changes
+
+### [c:/quran-c/src/types.ts](file:///c:/quran-c/src/types.ts)
+- Add an `audio` field to the [Ayah](file:///c:/quran-c/src/types.ts#24-36) interface (or a new interface mapping verse keys to audio URLs) to hold the audio URL string.
+- Update [AppSettings](file:///c:/quran-c/src/types.ts#53-60) to potentially include a preferred reciter (optional for this initial step, we can default to one like AbdulBaset or Mishary).
+
+### [c:/quran-c/src/services/quranService.ts](file:///c:/quran-c/src/services/quranService.ts)
+- Add a new function `fetchAyahAudio(surahNumber: number, reciterId: number = 7)` to call `https://api.quran.com/api/v4/recitations/{reciterId}/by_chapter/{surahNumber}`. This endpoint returns `verse_key` and `url`.
+- Update [fetchSurahDetail](file:///c:/quran-c/src/services/quranService.ts#12-17) or make the component call `fetchAyahAudio` in parallel to load the audio links. The API base URL for the audio is `https://verses.quran.com/` + the returned `url`.
+
+### [c:/quran-c/src/App.tsx](file:///c:/quran-c/src/App.tsx)
+- Add state to hold the audio map `Record<number, string>` (mapping Ayah `numberInSurah` to audio URL).
+- Add state to track the currently playing Ayah `playingAyah: number | null`.
+- Add a hidden `<audio>` element or use the web Audio API to play/pause the recitation.
+- In the Ayah list rendering, add a "Play" (and "Pause/Stop") button next to the bookmark button. Use Lucille icons (`Play`, `Square` or `Pause`).
+- Handle playback end to reset `playingAyah`.
+
+## Verification Plan
+
+### Manual Verification
+1. Open the application in the browser at `http://localhost:3000`.
+2. Click on a Surah to view its Ayahs.
+3. Verify that a "Play" button appears next to each Ayah.
+4. Click the "Play" button for an Ayah and listen. Ensure the correct audio plays.
+5. Click "Pause/Stop" to interrupt the playback.
+6. Verify that playing another Ayah stops the previous one.
