@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, Settings, ChevronLeft, BookOpen, Moon, Sun, X, Info, Bookmark as BookmarkIcon, BookmarkCheck, Trash2, Type, Play, Square } from 'lucide-react';
+import { Search, Settings, ChevronLeft, BookOpen, Moon, Sun, X, Info, Bookmark as BookmarkIcon, BookmarkCheck, Trash2, Type, Play, Square, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Surah, SurahDetail, JuzDetail, Ayah, Translation, AppSettings, Bookmark, Word } from './types';
 import { fetchSurahs, fetchSurahDetail, fetchTranslation, fetchWordsForSurah, fetchAyahAudio, fetchJuzDetail, fetchJuzTranslation, fetchWordsForJuz, fetchJuzAudio } from './services/quranService';
@@ -30,6 +30,7 @@ export default function App() {
   const [wordsByVerseKey, setWordsByVerseKey] = useState<Record<string, Word[]>>({});
   const [audioUrlsByVerseKey, setAudioUrlsByVerseKey] = useState<Record<string, string>>({});
   const [playingAyahKey, setPlayingAyahKey] = useState<string | null>(null);
+  const [copiedAyahKey, setCopiedAyahKey] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -220,6 +221,18 @@ export default function App() {
         ayahText: ayah.text
       }]);
     }
+  };
+
+  const handleCopyAyah = (verseKey: string, arabicText: string, translationText?: string, surahName?: string, surahNumber?: number, ayahNumber?: number) => {
+    const header = `${surahName || ''} ${surahNumber ? `(${surahNumber}:${ayahNumber})` : ayahNumber ? ayahNumber : ''}`.trim();
+    const textToCopy = `${header ? header + '\n\n' : ''}${arabicText}${translationText ? '\n\n' + translationText : ''}`;
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      setCopiedAyahKey(verseKey);
+      setTimeout(() => {
+        setCopiedAyahKey(null);
+      }, 2000); // Reset after 2 seconds
+    }).catch(err => console.error("Could not copy text: ", err));
   };
 
   const removeBookmark = (surahNum: number, ayahNum: number) => {
@@ -485,6 +498,13 @@ export default function App() {
                               {selectedJuz ? `${surahReference.number}:${ayah.numberInSurah}` : ayah.numberInSurah}
                             </span>
                             <div className="flex gap-2">
+                              <button
+                                onClick={() => handleCopyAyah(verseKey, ayah.text, translations[verseKey]?.text, surahReference.englishName, surahReference.number, ayah.numberInSurah)}
+                                className={`p-2 rounded-xl transition-all ${copiedAyahKey === verseKey ? 'bg-emerald-100 text-emerald-700 shadow-sm' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                                aria-label="Copy Ayah"
+                              >
+                                {copiedAyahKey === verseKey ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                              </button>
                               {audioUrlsByVerseKey[verseKey] && (
                                 <button
                                   onClick={() => handlePlayAudio(verseKey)}

@@ -31,6 +31,16 @@ Added a new feature to play the audio recitation for each individual Ayah.
 Here is a recording showcasing the audio playback feature across verses in Surah Al-Fatihah:
 ![Audio Playback Feature](file:///D:/Users/JKDM/.gemini/antigravity/brain/7a2dc3ae-0b0f-4bfc-a233-ae91817447c2/audio_playback_preview_1772327636007.webp)
 
+### Quick Copy Ayah Content
+Users can now instantly copy full Ayah context directly from the application with a single block:
+- Formats a cleanly styled text segment placing Surah name and Verse number at the header.
+- Appends the Arabic `uthmani` text beneath the header alongside its active language translation text ensuring ease of sharing.
+- Employs the `navigator.clipboard` API enabling copies with a simple button layout near the play button.
+- A temporary "Check" effect plays out on the icon indicating to the user their content is ready in their clipboard.
+
+Recording showing the copy verification UI:
+![Copy Ayah Action](file:///D:/Users/JKDM/.gemini/antigravity/brain/7a2dc3ae-0b0f-4bfc-a233-ae91817447c2/ayah_copy_preview_1772330588547.webp)
+
 ## Bug Fixes
 
 - **Word-by-word translation language**: Fixed an issue where the word-by-word translation for Bahasa Melayu fell back to English. Since the Quran.com API (`v4`) does not support Malay word-by-word translations, we have mapped it to gracefully fallback to Indonesian (`id`), which is mutually intelligible and provides a much better experience than English.
