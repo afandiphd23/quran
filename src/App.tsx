@@ -563,8 +563,12 @@ export default function App() {
                 </div>
               )}
             </motion.div>
-          )}
         </AnimatePresence>
+
+        <footer className="mt-12 pb-8 text-center text-slate-400 text-sm">
+          <p>by DrFendi Ameen</p>
+          <a href="mailto:afandi.amin@customs.gov.my" className="hover:text-emerald-600 transition-colors mt-1 inline-block">afandi.amin@customs.gov.my</a>
+        </footer>
       </main>
 
       {/* Settings Modal */}
